@@ -1,5 +1,17 @@
 # Siri AI Quality Engineering Sample Pipeline
 
+## Pipeline Workflow (Mermaid Diagram)
+
+```mermaid
+flowchart TD
+   A[Ingestion\n(pandas, incremental load)] --> B[Data Profiling\n(pandas describe)]
+   B --> C[Transformation\n(PySpark)]
+   C --> D[Quality Checks\n(Great Expectations, Alerts)]
+   D --> E[SQL Query\n(pandas.query)]
+   E --> F[ML Pipeline\n(scikit-learn)]
+   F --> G[Delivery\n(Simulated Iceberg)]
+```
+
 ## Overview
 This project demonstrates advanced data engineering skills for a Siri AI Quality Engineering role at Apple. It features an end-to-end data pipeline orchestrated with Apache Airflow, including ingestion, transformation, data profiling, quality checks, incremental loads, and delivery.
 
