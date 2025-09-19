@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-    A[Ingestion \(pandas, incremental load\)] --> B[Data Profiling (pandas describe)]
+    A[Ingestion &#40;pandas, incremental load&#41;] --> B[Data Profiling (pandas describe)]
     B --> C[Transformation (PySpark)]
     C --> D[Quality Checks (Great Expectations, Alerts)]
     D --> E[SQL Query (pandas.query)]
