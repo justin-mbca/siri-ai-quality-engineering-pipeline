@@ -1,5 +1,5 @@
 
-from great_expectations.dataset import PandasDataset
+import great_expectations as ge
 import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
@@ -19,11 +19,14 @@ def send_alert(subject, body, to_email):
 
 def check_quality(path):
     df = pd.read_csv(path)
-    ds = PandasDataset(df)
+    gdf = ge.from_pandas(df)
     try:
-        assert ds.expect_column_values_to_not_be_null('id')['success']
-        assert ds.expect_column_values_to_be_between('value', 0, 1000)['success']
-        print('Data quality checks passed.')
+        result1 = gdf.expect_column_values_to_not_be_null('id')
+        result2 = gdf.expect_column_values_to_be_between('value', min_value=0, max_value=1000)
+        if result1["success"] and result2["success"]:
+            print('Data quality checks passed.')
+        else:
+            raise AssertionError('Data quality check failed.')
     except AssertionError as e:
         print('Data quality check failed.')
         send_alert(
@@ -34,4 +37,4 @@ def check_quality(path):
         raise
 
 if __name__ == "__main__":
-    check_quality('/Users/justin/siri-ai-quality-engineering/data/sample.csv')
+    check_quality('/opt/airflow/data/sample.csv')

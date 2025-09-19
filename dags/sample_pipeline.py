@@ -2,8 +2,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 import sys
-import os
-sys.path.append(os.path.expanduser('~/siri-ai-quality-engineering/src'))
+sys.path.append('/opt/airflow/src')
 from ingest import ingest_csv
 from transform import transform_data
 from quality import check_quality
@@ -12,19 +11,19 @@ from sql_step import run_sql_query
 from ml_step import run_ml_pipeline
 
 def run_ingest():
-    ingest_csv('/Users/justin/siri-ai-quality-engineering/data/sample.csv')
+    ingest_csv('/opt/airflow/data/sample.csv')
 
 def run_transform():
     transform_data()
 
 def run_quality():
-    check_quality('/Users/justin/siri-ai-quality-engineering/data/sample.csv')
+    check_quality('/opt/airflow/data/sample.csv')
 
 def run_sql():
-    run_sql_query('/Users/justin/siri-ai-quality-engineering/data/sample.csv')
+    run_sql_query('/opt/airflow/data/sample.csv')
 
 def run_ml():
-    run_ml_pipeline('/Users/justin/siri-ai-quality-engineering/data/sample.csv')
+    run_ml_pipeline('/opt/airflow/data/sample.csv')
 
 def run_deliver():
     deliver_to_iceberg()

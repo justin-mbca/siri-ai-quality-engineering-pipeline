@@ -5,3 +5,7 @@ pyspark
 great_expectations
 scikit-learn
 pytest
+pyarrow
+numpy
+pytz
+python-dateutil

@@ -9,7 +9,9 @@ flowchart TD
     C --> D["Quality Checks (Great Expectations, Alerts)"]
     D --> E["SQL Query (pandas.query)"]
     E --> F["ML Pipeline (scikit-learn)"]
-    F --> G["Delivery (Simulated Iceberg)"]
+   F --> G["Delivery (Apache Iceberg)"]
+   A -.-> H[Spark Structured Streaming]
+   H --> C
 ```
 
 ## Overview
@@ -23,12 +25,26 @@ This project demonstrates advanced data engineering skills for a Siri AI Quality
 - Great Expectations
 - Simulated Apache Iceberg
 - pytest (unit testing)
+## Technologies
+- Python 3.13
+- Apache Airflow 3.x
+- pandas
+- PySpark (Batch & Structured Streaming)
+- Great Expectations
+- Apache Iceberg
+- pytest (unit testing)
 
 ## Pipeline Steps
 1. **Ingestion**: Reads data from `data/sample.csv`, supports incremental loads, and generates a data profile report (HTML).
 2. **Transformation**: Processes data using PySpark.
 3. **Quality Checks**: Validates data with Great Expectations; sends email alerts on failure.
-4. **Delivery**: Simulates delivery to Apache Iceberg.
+4. **Ingestion**: Reads data from `data/sample.csv`, supports incremental loads, and generates a data profile report (text).
+5. **Transformation**: Processes data using PySpark (batch and streaming).
+6. **Quality Checks**: Validates data with Great Expectations; sends email alerts on failure.
+7. **SQL Query**: Runs SQL-like queries using pandas.
+8. **ML Pipeline**: Trains and predicts with scikit-learn.
+9. **Delivery**: Writes data to Apache Iceberg table using Spark.
+10. **Structured Streaming**: Processes streaming data from files using PySpark Structured Streaming.
 
 ## Running the Pipeline
 1. Install dependencies:
@@ -48,6 +64,7 @@ This project demonstrates advanced data engineering skills for a Siri AI Quality
 
 ## Data Profiling
 - After ingestion, an HTML report is generated alongside the CSV file.
+- After ingestion, a text summary report is generated alongside the CSV file.
 
 ## Data Quality Alerts
 - If quality checks fail, an email alert is sent (configure SMTP in `src/quality.py`).
@@ -61,6 +78,8 @@ This project demonstrates advanced data engineering skills for a Siri AI Quality
 ## Customization
 - Update email settings in `src/quality.py` for alerts.
 - Extend transformation and delivery logic as needed.
+- Update email settings in `src/quality.py` for alerts.
+- Extend transformation, streaming, and delivery logic as needed.
 
 ## Contact
 For questions, contact the project owner.

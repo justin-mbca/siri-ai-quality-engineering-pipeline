@@ -29,4 +29,4 @@ def ingest_csv(path):
     return new_rows
 
 if __name__ == "__main__":
-    ingest_csv('/Users/justin/siri-ai-quality-engineering/data/sample.csv')
+    ingest_csv('/opt/airflow/data/sample.csv')
