@@ -4,12 +4,12 @@
 
 ```mermaid
 flowchart TD
-   A[Ingestion\n(pandas, incremental load)] --> B[Data Profiling\n(pandas describe)]
-   B --> C[Transformation\n(PySpark)]
-   C --> D[Quality Checks\n(Great Expectations, Alerts)]
-   D --> E[SQL Query\n(pandas.query)]
-   E --> F[ML Pipeline\n(scikit-learn)]
-   F --> G[Delivery\n(Simulated Iceberg)]
+   A[Ingestion (pandas, incremental load)] --> B[Data Profiling (pandas describe)]
+   B --> C[Transformation (PySpark)]
+   C --> D[Quality Checks (Great Expectations, Alerts)]
+   D --> E[SQL Query (pandas.query)]
+   E --> F[ML Pipeline (scikit-learn)]
+   F --> G[Delivery (Simulated Iceberg)]
 ```
 
 ## Overview
