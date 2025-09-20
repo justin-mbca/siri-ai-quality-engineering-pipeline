@@ -74,6 +74,26 @@ This project demonstrates advanced data engineering skills for AI Quality Engine
    pytest tests/
    ```
 
+## Running Unit Tests
+
+You can run the unit tests for data quality manually or automatically:
+
+**Manual Run (Local):**
+1. Install dependencies:
+   ```bash
+   pip install pytest pandas
+   ```
+2. Run the tests from the project root:
+   ```bash
+   PYTHONPATH=. pytest test/test_quality.py
+   ```
+
+**Automatic Run (CI/CD):**
+- Every push or pull request triggers GitHub Actions to run all tests automatically.
+- Results are shown in the "Actions" tab of your GitHub repository.
+
+No extra setup is needed for CI/CD—just push your code and tests will run automatically.
+
 ## Customization
 - Update email settings in `src/quality.py` for alerts.
 - Extend transformation and delivery logic as needed.
