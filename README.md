@@ -187,3 +187,62 @@ This project directly demonstrates the skills and techniques required for a mode
   - All code is versioned in Git, with clear documentation, troubleshooting guides, and automation scripts included.
 
 This project is designed to be extensible, testable, and production-ready, reflecting the best practices and responsibilities described in modern Analytics Data Engineer job descriptions for quality engineering teams.
+
+## Pipeline Step Inputs & Outputs (with Sample Content)
+
+| Step         | Function                | Input                        | Output                                 | Description                        |
+|--------------|-------------------------|------------------------------|----------------------------------------|------------------------------------|
+| Ingest       | `ingest_csv`            | `data/sample.csv`            | New rows, `sample_profile.txt`         | Reads CSV, profiles data           |
+| Transform    | `transform_data`        | `data/sample.csv`            | Transformed DataFrame                  | Adds `value_doubled` column        |
+| Quality      | `check_quality`         | `data/sample.csv`            | Print/log, alert if failed             | Data quality checks                |
+| SQL Step     | `run_sql_query`         | `data/sample.csv`            | `sample_sql_result.csv`                | Filters rows, saves result         |
+| ML Step      | `run_ml_pipeline`       | `data/sample.csv`            | `sample_ml_result.csv`                 | Linear regression, predictions     |
+| Deliver      | `deliver_to_iceberg`    | `data/sample.csv`            | Iceberg table in `iceberg_warehouse`   | Writes to Iceberg lakehouse        |
+
+### Sample Input: `sample.csv`
+```csv
+id,value
+1,100
+2,200
+3,300
+```
+
+### Sample Output: `sample_profile.txt`
+```
+Data Profile Report
+===================
+Shape: (3, 2)
+Columns: ['id', 'value']
+Missing Values:
+id       0
+value    0
+Describe:
+   id  value
+count  3.0   3.0
+mean   2.0  200.0
+std    1.0  100.0
+min    1.0  100.0
+max    3.0  300.0
+```
+
+### Sample Output: `sample_sql_result.csv`
+```csv
+id,value
+2,200
+3,300
+```
+
+### Sample Output: `sample_ml_result.csv`
+```csv
+id,value,predicted_value
+1,100,100.0
+2,200,200.0
+3,300,300.0
+```
+
+### Sample Output: Iceberg Table Schema
+```
+Table: demo.demo_table
+Columns: id (int), value (int), value_doubled (int)
+Location: data/iceberg_warehouse/demo_table/
+```
