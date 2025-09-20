@@ -4,11 +4,11 @@
 
 ```mermaid
 flowchart TD
-    A[Ingest (pandas)] --> B[Transform (PySpark)]
-    B --> C[Quality Check (pandas)]
-    C --> D[SQL Step (pandas.query)]
-    D --> E[ML Step (scikit-learn)]
-    E --> F[Deliver (Spark + Iceberg)]
+    A(Ingest - pandas) --> B(Transform - PySpark)
+    B --> C(Quality Check - pandas)
+    C --> D(SQL Step - pandas.query)
+    D --> E(ML Step - scikit-learn)
+    E --> F(Deliver - Spark + Iceberg)
 ```
 
 ## Overview
