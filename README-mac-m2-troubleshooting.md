@@ -47,3 +47,40 @@
 ## 5. Airflow DAGs
 - Mount your DAGs, source, and data directories in the container.
 - Set `PYTHONPATH` and other environment variables as needed.
+
+## 6. Troubleshooting Pipeline Task Failures
+
+- **Path Issues:**
+  - Always use container paths (e.g., `/opt/airflow/data/...`) in your code, not host paths (e.g., `/Users/justin/...`).
+  - Check that all volume mounts in `docker-compose.yml` match your code expectations.
+
+- **Permissions:**
+  - Ensure the Airflow container user (`airflow`) can write to all mounted directories.
+  - Use `ls -ld` inside the container to verify directory ownership and permissions.
+
+- **Iceberg Table Errors:**
+  - If Spark/Iceberg fails to create files, clean up old/corrupted files in the warehouse directory.
+  - Drop and recreate Iceberg tables using the correct container path.
+
+- **Code Changes:**
+  - Python code changes in mounted volumes are reflected immediately; no need to rebuild or restart Docker unless you change the image or mounts.
+
+- **Debugging Output:**
+  - Check Airflow task logs in the UI or via CLI for print statements and errors.
+  - Inspect output files in the `data/` directory for each step (profile, SQL, ML, Iceberg).
+
+- **General Tips:**
+  - Restart Docker containers only if you change environment variables, mounts, or the Docker image.
+  - Use Airflow CLI to trigger DAGs and check task states:
+    ```bash
+    docker compose exec airflow airflow dags trigger sample_pipeline
+    docker compose exec airflow airflow tasks states-for-dag-run sample_pipeline <run_id>
+    ```
+
+- **Mac M2 Specifics:**
+  - Always use ARM64-compatible images and dependencies.
+  - If you see architecture errors, rebuild with `platform: linux/arm64` and check all dependencies.
+
+---
+
+For more details, see the main `README.md` and source code in `src/` and `dags/`.

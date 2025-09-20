@@ -4,14 +4,11 @@
 
 ```mermaid
 flowchart TD
-    A["Ingestion (pandas, incremental load)"] --> B["Data Profiling (pandas describe)"]
-    B --> C["Transformation (PySpark)"]
-    C --> D["Quality Checks (Great Expectations, Alerts)"]
-    D --> E["SQL Query (pandas.query)"]
-    E --> F["ML Pipeline (scikit-learn)"]
-   F --> G["Delivery (Apache Iceberg)"]
-   A -.-> H[Spark Structured Streaming]
-   H --> C
+    A[Ingest (pandas)] --> B[Transform (PySpark)]
+    B --> C[Quality Check (pandas)]
+    C --> D[SQL Step (pandas.query)]
+    D --> E[ML Step (scikit-learn)]
+    E --> F[Deliver (Spark + Iceberg)]
 ```
 
 ## Overview
@@ -83,3 +80,72 @@ This project demonstrates advanced data engineering skills for a Siri AI Quality
 
 ## Contact
 For questions, contact the project owner.
+
+# Siri AI Quality Engineering Pipeline
+
+This repository contains an end-to-end data pipeline orchestrated with Apache Airflow, demonstrating data engineering, analytics, and ML best practices. Each step is modular, testable, and documented for clarity.
+
+## Pipeline Overview
+
+The pipeline consists of six main steps, each implemented as a Python function and Airflow task:
+
+### 1. Ingest (`ingest`)
+- **Function:** `ingest_csv(path)`
+- **Input:** `data/sample.csv`
+- **Output:**
+  - Ingests new rows from the CSV file
+  - Updates a state file to track progress
+  - Generates a data profile report (`sample_profile.txt`)
+
+### 2. Transform (`transform`)
+- **Function:** `transform_data()`
+- **Input:** `data/sample.csv`
+- **Output:**
+  - Adds a new column `value_doubled`
+  - Prints and returns the transformed DataFrame
+
+### 3. Quality Check (`quality`)
+- **Function:** `check_quality(path)`
+- **Input:** `data/sample.csv`
+- **Output:**
+  - Validates data for missing IDs, value ranges, duplicates, missing values, and outliers
+  - Prints results and sends alert if checks fail
+
+### 4. SQL Step (`sql`)
+- **Function:** `run_sql_query(csv_path)`
+- **Input:** `data/sample.csv`
+- **Output:**
+  - Filters rows where `value > 100`
+  - Prints and saves results to `sample_sql_result.csv`
+
+### 5. ML Step (`ml`)
+- **Function:** `run_ml_pipeline(csv_path)`
+- **Input:** `data/sample.csv`
+- **Output:**
+  - Trains a linear regression model to predict `value` from `id`
+  - Prints predictions and saves to `sample_ml_result.csv`
+
+### 6. Deliver (`deliver`)
+- **Function:** `deliver_to_iceberg()`
+- **Input:** `data/sample.csv`
+- **Output:**
+  - Drops and recreates the Iceberg table `demo.demo_table` in `data/iceberg_warehouse`
+  - Writes data to the Iceberg table using Spark
+
+## How to Check Outputs
+- **Logs:** View Airflow task logs in the UI or via CLI for details and print statements
+- **Files:** Output files are saved in the `data/` directory (profile, SQL, ML, Iceberg)
+- **Tables:** Query Iceberg tables using Spark SQL for delivered data
+
+## Technologies Used
+- Apache Airflow (orchestration)
+- Pandas (data manipulation)
+- PySpark & Iceberg (big data delivery)
+- scikit-learn (ML)
+
+## Intended Audience
+This documentation is written for interviewers, hiring managers, and engineers to quickly understand the pipeline's structure, data flow, and validation logic. Each step is modular and can be extended for real-world use cases.
+
+---
+
+For further details, see the source code in the `src/` and `dags/` directories.
