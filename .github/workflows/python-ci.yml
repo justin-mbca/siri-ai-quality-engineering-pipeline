@@ -21,4 +21,4 @@ jobs:
         pip install pandas pytest
     - name: Run tests
       run: |
-        pytest test/test_quality.py
+        PYTHONPATH=. pytest test/test_quality.py
