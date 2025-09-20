@@ -2,14 +2,16 @@
 
 ## Pipeline Workflow (Mermaid Diagram)
 
+"""
 ```mermaid
 flowchart TD
-    A["Ingest (pandas)"] --> B["Transform (PySpark)"]
-    B --> C["Quality Check (pandas)"]
-    C --> D["SQL Step (pandas.query)"]
-    D --> E["ML Step (scikit-learn)"]
-    E --> F["Deliver (Spark + Iceberg)"]
+    A(Ingest<br/>pandas<br/>Reads CSV, profiles data) --> B(Transform<br/>PySpark<br/>Adds value_doubled)
+    B --> C(Quality Check<br/>pandas<br/>Missing IDs, range, outliers)
+    C --> D(SQL Step<br/>pandas.query<br/>value > 100, saves CSV)
+    D --> E(ML Step<br/>scikit-learn<br/>Linear regression, predictions)
+    E --> F(Deliver<br/>Spark + Iceberg<br/>Drops/recreates table, writes data)
 ```
+"""
 
 ## Overview
 This project demonstrates advanced data engineering skills for a Siri AI Quality Engineering role at Apple. It features an end-to-end data pipeline orchestrated with Apache Airflow, including ingestion, transformation, data profiling, quality checks, incremental loads, and delivery.
